@@ -1,0 +1,33 @@
+{
+  "name": "typescript-boilerplate",
+  "version": "1.0.0",
+  "description": "Organisation-level boilerplate for TypeScript projects",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "test": "eslint . --ext .ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mergemocha/typescript-boilerplate.git"
+  },
+  "author": "Linus Willner, Anna Smati, Panu Eronen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mergemocha/typescript-boilerplate/issues"
+  },
+  "homepage": "https://github.com/mergemocha/typescript-boilerplate#readme",
+  "devDependencies": {
+    "@types/node": "^14.14.39",
+    "@typescript-eslint/eslint-plugin": "^4.22.0",
+    "@typescript-eslint/parser": "^4.22.0",
+    "eslint": "^7.24.0",
+    "eslint-config-standard-with-typescript": "^19.0.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.3.1",
+    "eslint-plugin-standard": "^5.0.0",
+    "typescript": "^4.2.4"
+  }
+}
