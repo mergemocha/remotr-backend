@@ -12,6 +12,8 @@
     "pflannery.vscode-versionlens",
     "visualstudioexptteam.vscodeintellicode",
     "redhat.vscode-yaml",
-    "gruntfuggly.todo-tree"
+    "gruntfuggly.todo-tree",
+    "orta.vscode-jest",
+    "firsttris.vscode-jest-runner"
   ]
 }
