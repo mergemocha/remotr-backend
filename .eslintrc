@@ -12,7 +12,8 @@
       "globalReturn": true,
       "jsx": true
     },
-    "sourceType": "module"
+    "sourceType": "module",
+    "createDefaultProgram": true
   },
   "extends": "standard-with-typescript",
   "plugins": [
