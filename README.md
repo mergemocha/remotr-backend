@@ -1,3 +1,3 @@
-# typescript-boilerplate
+# remotr-backend
 
-Organisation-level boilerplate for TypeScript projects
+Central Remotr backend server

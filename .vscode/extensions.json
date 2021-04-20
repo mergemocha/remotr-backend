@@ -1,0 +1,14 @@
+{
+  "recommendations": [
+    "riccardonovaglia.missinglineendoffile",
+    "mikestead.dotenv",
+    "dbaeumer.vscode-eslint",
+    "github.vscode-pull-request-github",
+    "eamodio.gitlens",
+    "eg2.vscode-npm-script",
+    "christian-kohler.npm-intellisense",
+    "wayou.vscode-todo-highlight",
+    "pflannery.vscode-versionlens",
+    "redhat.vscode-yaml"
+  ]
+}
