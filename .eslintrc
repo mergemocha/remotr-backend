@@ -16,6 +16,10 @@
   },
   "extends": "standard-with-typescript",
   "plugins": [
-    "@typescript-eslint"
-  ]
+    "@typescript-eslint",
+    "eslint-plugin-tsdoc"
+  ],
+  "rules": {
+    "tsdoc/syntax": "error"
+  }
 }

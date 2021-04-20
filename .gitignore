@@ -105,3 +105,6 @@ dist
 
 # TSC output
 lib
+
+# TypeDoc output
+docs
