@@ -1,0 +1,11 @@
+.git/*
+.github/*
+.vscode/*
+node_modules/*
+test/*
+.eslintignore
+.eslintrc
+.env
+.gitignore
+jest.config.js
+jest.coverage.js
