@@ -17,3 +17,5 @@ services:
       MONGO_INITDB_DATABASE: remotr
     ports:
       - 27017:27017
+    volumes:
+      - ./data/docker-entrypoint-initdb.d/00-mongo-init.js:/docker-entrypoint-initdb.d/00-mongo-init.js
