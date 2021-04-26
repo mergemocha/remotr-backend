@@ -36,6 +36,9 @@ nano .env
 # (Edit configuration)
 
 # Generate database initialisation script
+npm run db:init
+
+# Generate database initialisation script
 npm run watch
 
 # (In different terminal since watch occupies the current session)
