@@ -7,6 +7,12 @@ import requestWasValid from '../../../../utils/requestWasValid'
 import * as dbDriver from '../../../../db/driver'
 import { getAddressForOp } from '../../../../utils/daemonHTTPAddress'
 
+/**
+ * Performs a {@link DaemonOpCode} operation as specified by the user, validating that the target daemon exists and catching any errors.
+ *
+ * @param ctx - {@link DaemonOpCtx}
+ * @param op - Operation executor function.
+ */
 export async function performDaemonOp (ctx: DaemonOpCtx, op: (ctx: DaemonOpHandlerCtx) => void | Promise<void>): Promise<void> {
   const { opCode, req, res } = ctx
 
@@ -29,6 +35,11 @@ export async function performDaemonOp (ctx: DaemonOpCtx, op: (ctx: DaemonOpHandl
   }
 }
 
+/**
+ * Checks a daemon token for validity in conjunction with {@link performDaemonOp}, and terminates the request if it is invalid or not present..
+ *
+ * @param ctx - {@link DaemonOpCtx}
+ */
 export function checkDaemonToken (ctx: DaemonOpHandlerCtx): void {
   const { opCode, req, res, daemon } = ctx
 
@@ -38,6 +49,15 @@ export function checkDaemonToken (ctx: DaemonOpHandlerCtx): void {
   }
 }
 
+/**
+ * Handles response codes from the .
+ * @see 
+ * 
+ * @param opCode 
+ * @param daemonRes 
+ * @param req 
+ * @param res 
+ */
 export function handleDaemonResponse (opCode: DaemonOpCode, daemonRes: AxiosResponse, req: ExpressHandlerRequest, res: Response): void {
   switch (daemonRes.status) {
     case 200:
@@ -61,7 +81,7 @@ export function handleDaemonResponse (opCode: DaemonOpCode, daemonRes: AxiosResp
       logger.warn(`Sent ${opCode} request to ${req.params?.mac}, but got 500: ${JSON.stringify(daemonRes.data)}`)
       break
     default:
-      logger.warn(`Received out-of-spec response from daemon ${req.params?.mac} in reply to ${opCode} request: ${daemonRes.status}`)
+      logger.warn(`Received unorthodox response from daemon ${req.params?.mac} in reply to ${opCode} request: ${daemonRes.status}`)
   }
 }
 
