@@ -11,7 +11,7 @@ import mongoose from 'mongoose'
 import v1Router from './api/v1/index'
 
 function terminate (): void {
-  global.logger.error('Exiting...')
+  logger.error('BOOT: Encountered fatal error during boot process. Exiting...')
   process.exit(1)
 }
 
@@ -43,6 +43,9 @@ void (async () => {
   logger.info('BOOT: Database connection established.')
 
   const app = express()
+
+  // Parse bodies as JSON
+  app.use(express.json())
 
   // Load Helmet
   app.use(helmet())
