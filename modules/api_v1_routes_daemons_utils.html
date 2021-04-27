@@ -93,13 +93,21 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/mergemocha/remotr-backend/blob/b713d11/src/api/v1/routes/daemons/utils.ts#L34">src/api/v1/routes/daemons/utils.ts:34</a></li>
+									<li>Defined in <a href="https://github.com/mergemocha/remotr-backend/blob/63adf47/src/api/v1/routes/daemons/utils.ts#L43">src/api/v1/routes/daemons/utils.ts:43</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Checks a daemon token for validity in conjunction with <a href="api_v1_routes_daemons_utils.html#performdaemonop">performDaemonOp</a>, and terminates the request if it is invalid or not present..</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>ctx: <a href="../interfaces/types_daemonops.daemonophandlerctx.html" class="tsd-signature-type" data-tsd-kind="Interface">DaemonOpHandlerCtx</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p><a href="../interfaces/types_daemonops.daemonopctx.html">DaemonOpCtx</a></p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -116,16 +124,27 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/mergemocha/remotr-backend/blob/b713d11/src/api/v1/routes/daemons/utils.ts#L70">src/api/v1/routes/daemons/utils.ts:70</a></li>
+									<li>Defined in <a href="https://github.com/mergemocha/remotr-backend/blob/63adf47/src/api/v1/routes/daemons/utils.ts#L94">src/api/v1/routes/daemons/utils.ts:94</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Express-pluggable HTTP request handler for generic daemon operations.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>ctx: <a href="../interfaces/types_daemonops.daemonopctx.html" class="tsd-signature-type" data-tsd-kind="Interface">DaemonOpCtx</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p><a href="../interfaces/types_daemonops.daemonopctx.html">DaemonOpCtx</a></p>
+									</div>
 								</li>
 								<li>
 									<h5>params: <a href="../interfaces/types_daemonops.daemonopparams.html" class="tsd-signature-type" data-tsd-kind="Interface">DaemonOpParams</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p><a href="../interfaces/types_daemonops.daemonopparams.html">DaemonOpParams</a></p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -142,22 +161,44 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/mergemocha/remotr-backend/blob/b713d11/src/api/v1/routes/daemons/utils.ts#L43">src/api/v1/routes/daemons/utils.ts:43</a></li>
+									<li>Defined in <a href="https://github.com/mergemocha/remotr-backend/blob/63adf47/src/api/v1/routes/daemons/utils.ts#L61">src/api/v1/routes/daemons/utils.ts:61</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Handles response codes from the daemon in accordance with the spec.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://mergemocha.github.io/remotr-api-spec">https://mergemocha.github.io/remotr-api-spec</a></p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>opCode: <a href="types_daemonops.html#daemonopcode" class="tsd-signature-type" data-tsd-kind="Type alias">DaemonOpCode</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p><a href="types_daemonops.html#daemonopcode">DaemonOpCode</a></p>
+									</div>
 								</li>
 								<li>
 									<h5>daemonRes: <span class="tsd-signature-type">AxiosResponse</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Daemon HTTP server response (An {@link AxiosResponse})</p>
+									</div>
 								</li>
 								<li>
 									<h5>req: <a href="types_expresshandlerrequest.html#expresshandlerrequest" class="tsd-signature-type" data-tsd-kind="Type alias">ExpressHandlerRequest</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Express request object.</p>
+									</div>
 								</li>
 								<li>
 									<h5>res: <span class="tsd-signature-type">Response</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Express response object.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -174,16 +215,27 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/mergemocha/remotr-backend/blob/b713d11/src/api/v1/routes/daemons/utils.ts#L12">src/api/v1/routes/daemons/utils.ts:12</a></li>
+									<li>Defined in <a href="https://github.com/mergemocha/remotr-backend/blob/63adf47/src/api/v1/routes/daemons/utils.ts#L16">src/api/v1/routes/daemons/utils.ts:16</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Performs a <a href="types_daemonops.html#daemonopcode">DaemonOpCode</a> operation as specified by the user, validating that the target daemon exists and catching any errors.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>ctx: <a href="../interfaces/types_daemonops.daemonopctx.html" class="tsd-signature-type" data-tsd-kind="Interface">DaemonOpCtx</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p><a href="../interfaces/types_daemonops.daemonopctx.html">DaemonOpCtx</a></p>
+									</div>
 								</li>
 								<li>
 									<h5>op: <span class="tsd-signature-symbol">(</span>ctx<span class="tsd-signature-symbol">: </span><a href="../interfaces/types_daemonops.daemonophandlerctx.html" class="tsd-signature-type" data-tsd-kind="Interface">DaemonOpHandlerCtx</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Operation executor function.</p>
+									</div>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-signature">
 											<ul class="tsd-signatures tsd-kind-type-literal">
@@ -251,10 +303,6 @@
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
-				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
 			</ul>
 		</div>
 	</div>
