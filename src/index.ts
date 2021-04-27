@@ -8,41 +8,58 @@ import dotenv from 'dotenv-safe'
 import express from 'express'
 import helmet from 'helmet'
 import mongoose from 'mongoose'
+import session from 'express-session'
+import MongoStore from 'connect-mongo'
 import v1Router from './api/v1/index'
 
 function terminate (): void {
-  global.logger.error('Exiting...')
+  logger.error('BOOT: Encountered fatal error during boot process. Exiting...')
   process.exit(1)
 }
 
 // We can't reliably use TLA (Top-Level Await) yet, so we have to fallback to an async IIFE
 void (async () => {
   // Load configuration
-  global.logger.info('BOOT: Loading configuration.')
+  logger.info('BOOT: Loading configuration.')
   dotenv.config()
-  global.logger.info('BOOT: Configuration loaded.')
+  logger.info('BOOT: Configuration loaded.')
 
   // Check database connection
   const { MONGO_HOST, MONGO_PORT, MONGO_USER, MONGO_PASS } = process.env
-  const dbUrl = `mongodb://${MONGO_USER}:${MONGO_PASS}@${MONGO_HOST}:${MONGO_PORT}/remotr?authSource=remotr`
+  const mongoUrl = `mongodb://${MONGO_USER}:${MONGO_PASS}@${MONGO_HOST}:${MONGO_PORT}/remotr?authSource=remotr`
 
-  global.logger.info(`BOOT: Establishing database connection (URL: ${dbUrl}).`)
+  logger.info(`BOOT: Establishing database connection (URL: ${mongoUrl}).`)
 
   try {
-    await mongoose.connect(dbUrl, {
+    await mongoose.connect(mongoUrl, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: false,
       useCreateIndex: true
     })
   } catch (err) {
-    global.logger.error(`BOOT: Database connection failed: ${err.stack}`)
+    logger.error(`BOOT: Database connection failed: ${err.stack}`)
     terminate()
   }
 
-  global.logger.info('BOOT: Database connection established.')
+  logger.info('BOOT: Database connection established.')
 
   const app = express()
+
+  // Init session store
+  app.use(session({
+    secret: 'secret',
+    store: new MongoStore({
+      mongoUrl,
+      ttl: 14 * 24 * 60 * 60,
+      autoRemove: 'native'
+    }),
+    resave: false,
+    saveUninitialized: true
+  }))
+
+  // Parse bodies as JSON
+  app.use(express.json())
 
   // Load Helmet
   app.use(helmet())
