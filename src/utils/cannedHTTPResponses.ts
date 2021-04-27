@@ -1,11 +1,5 @@
 import { Response } from 'express'
 
-/**
- * Terminates a request with status code 200, default message field and optional detail string.
- *
- * @param res - Express response object.
- * @param detail - Optional string with extra details.
- */
 export function ok (res: Response, detail?: string): void {
   res.status(200).json({ message: 'OK', detail })
 }
