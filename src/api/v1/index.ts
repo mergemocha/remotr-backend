@@ -1,7 +1,7 @@
 import express from 'express'
 import rateLimit from 'express-rate-limit'
 import userRoutes from './routes/user'
-import { publicRoutes as publicDaemonRoutes, privateRoutes as privateDaemonRoutes } from './routes/daemons'
+import daemonRoutes from './routes/daemons'
 
 const router = express.Router()
 
@@ -15,7 +15,6 @@ router.use(rateLimit({
 // Configure routes
 
 router.use('/user', userRoutes)
-router.use('/daemons', publicDaemonRoutes)
-router.use('/daemons', privateDaemonRoutes)
+router.use('/daemons', daemonRoutes)
 
 export default router
