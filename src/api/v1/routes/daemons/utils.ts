@@ -50,13 +50,13 @@ export function checkDaemonToken (ctx: DaemonOpHandlerCtx): void {
 }
 
 /**
- * Handles response codes from the .
- * @see 
- * 
- * @param opCode 
- * @param daemonRes 
- * @param req 
- * @param res 
+ * Handles response codes from the daemon in accordance with the spec.
+ * @see https://mergemocha.github.io/remotr-api-spec
+ *
+ * @param opCode - {@link DaemonOpCode}
+ * @param daemonRes - Daemon HTTP server response (An {@link AxiosResponse})
+ * @param req - Express request object.
+ * @param res - Express response object.
  */
 export function handleDaemonResponse (opCode: DaemonOpCode, daemonRes: AxiosResponse, req: ExpressHandlerRequest, res: Response): void {
   switch (daemonRes.status) {
@@ -85,6 +85,12 @@ export function handleDaemonResponse (opCode: DaemonOpCode, daemonRes: AxiosResp
   }
 }
 
+/**
+ * Express-pluggable HTTP request handler for generic daemon operations.
+ *
+ * @param ctx - {@link DaemonOpCtx}
+ * @param params - {@link DaemonOpParams}
+ */
 export async function genericOpHandler (ctx: DaemonOpCtx, params: DaemonOpParams): Promise<void> {
   const { opCode, req, res } = ctx
 
