@@ -8,6 +8,8 @@ import dotenv from 'dotenv-safe'
 import express from 'express'
 import helmet from 'helmet'
 import mongoose from 'mongoose'
+import session from 'express-session'
+import MongoStore from 'connect-mongo'
 import v1Router from './api/v1/index'
 
 function terminate (): void {
@@ -24,12 +26,12 @@ void (async () => {
 
   // Check database connection
   const { MONGO_HOST, MONGO_PORT, MONGO_USER, MONGO_PASS } = process.env
-  const dbUrl = `mongodb://${MONGO_USER}:${MONGO_PASS}@${MONGO_HOST}:${MONGO_PORT}/remotr?authSource=remotr`
+  const mongoUrl = `mongodb://${MONGO_USER}:${MONGO_PASS}@${MONGO_HOST}:${MONGO_PORT}/remotr?authSource=remotr`
 
-  logger.info(`BOOT: Establishing database connection (URL: ${dbUrl}).`)
+  logger.info(`BOOT: Establishing database connection (URL: ${mongoUrl}).`)
 
   try {
-    await mongoose.connect(dbUrl, {
+    await mongoose.connect(mongoUrl, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: false,
@@ -43,6 +45,14 @@ void (async () => {
   logger.info('BOOT: Database connection established.')
 
   const app = express()
+
+  // Init session store
+  app.use(session({
+    secret: 'secret',
+    store: new MongoStore({ mongoUrl }),
+    resave: false,
+    saveUninitialized: false
+  }))
 
   // Parse bodies as JSON
   app.use(express.json())
