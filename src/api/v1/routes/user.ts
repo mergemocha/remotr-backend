@@ -30,7 +30,7 @@ router.post('/login', async (req: ExpressHandlerRequest, res: Response, next: Ne
 })
 
 router.post('/auth', (req, res, next) => {
-  logger.info(`Received a request to authenticate session ${req.session.token}`)
+  logger.info(`Received a request to authenticate session with token ${req.session.token}`)
   try {
     if (req.session.token) {
       logger.info(`Session authentication with token ${req.session.token} successful.`)
