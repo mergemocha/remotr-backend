@@ -3,9 +3,7 @@ import { NextFunction, Response } from 'express'
 import { ExpressHandlerRequest } from '../../../../../types/ExpressHandlerRequest'
 import { unauthorized, internalServerError } from '../../../../../utils/cannedHTTPResponses'
 import requestWasValid from '../../../../../utils/requestWasValid'
-import DaemonDatabaseDriver from '../../../../../db/drivers/daemon'
-
-const dbDriver = new DaemonDatabaseDriver()
+import * as dbDriver from '../../../../../db/driver'
 
 export default async (req: ExpressHandlerRequest, res: Response, next: NextFunction): Promise<void> => {
   try {

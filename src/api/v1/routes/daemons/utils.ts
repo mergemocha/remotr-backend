@@ -4,10 +4,8 @@ import { DaemonOpCode, DaemonOpCtx, DaemonOpHandlerCtx, DaemonOpParams } from '.
 import { ExpressHandlerRequest } from '../../../../types/ExpressHandlerRequest'
 import { badRequest, daemonReturnedError, internalServerError, notFound, ok, unauthorized } from '../../../../utils/cannedHTTPResponses'
 import requestWasValid from '../../../../utils/requestWasValid'
-import DaemonDatabaseDriver from '../../../../db/drivers/daemon'
+import * as dbDriver from '../../../../db/driver'
 import { getAddressForOp } from '../../../../utils/daemonHTTPAddress'
-
-const dbDriver = new DaemonDatabaseDriver()
 
 export async function performDaemonOp (ctx: DaemonOpCtx, op: (ctx: DaemonOpHandlerCtx) => void | Promise<void>): Promise<void> {
   const { opCode, req, res } = ctx
