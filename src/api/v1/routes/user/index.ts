@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 
 import { Router } from 'express'
-import logout from '../daemons/handlers/mac/logout'
 import auth from './handlers/auth'
 import login from './handlers/login'
+import logout from './handlers/logout'
 
 const router = Router()
 
