@@ -1,10 +1,8 @@
 import { NextFunction, Response } from 'express'
 import { ExpressHandlerRequest } from '../../../../../../types/ExpressHandlerRequest'
 import { internalServerError, notFound, ok, unauthorized } from '../../../../../../utils/cannedHTTPResponses'
-import DaemonDatabaseDriver from '../../../../../../db/drivers/daemon'
+import * as dbDriver from '../../../../../../db/driver'
 import requestWasValid from '../../../../../../utils/requestWasValid'
-
-const dbDriver = new DaemonDatabaseDriver()
 
 export default async (req: ExpressHandlerRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -21,7 +19,7 @@ export default async (req: ExpressHandlerRequest, res: Response, next: NextFunct
       logger.warn(`Received daemon de-registration request from IP ${req.ip} for daemon ${req.params?.mac}, but token was incorrect (Expected ${daemon.token}, got ${req.headers.authorization}).`)
       return unauthorized(res, 'Invalid token')
     } else {
-      await dbDriver.delete(daemon)
+      await dbDriver.remove(daemon)
       ok(res, 'De-registration successful')
       logger.info(`Daemon de-registration for daemon ${req.params?.mac} complete.`)
     }

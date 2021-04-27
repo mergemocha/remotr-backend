@@ -1,12 +1,9 @@
+import crypto from 'crypto'
 import { NextFunction, Response } from 'express'
 import { ExpressHandlerRequest } from '../../../../../types/ExpressHandlerRequest'
 import { unauthorized, internalServerError } from '../../../../../utils/cannedHTTPResponses'
 import requestWasValid from '../../../../../utils/requestWasValid'
-import DaemonTokenManager from '../../../../../auth/DaemonTokenManager'
-import DaemonDatabaseDriver from '../../../../../db/drivers/daemon'
-
-const tokenManager = new DaemonTokenManager()
-const dbDriver = new DaemonDatabaseDriver()
+import * as dbDriver from '../../../../../db/driver'
 
 export default async (req: ExpressHandlerRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -15,7 +12,7 @@ export default async (req: ExpressHandlerRequest, res: Response, next: NextFunct
     if (req.headers['x-secret'] === process.env.SERVER_SECRET) {
       logger.info(`Received daemon registration request from IP ${req.ip}, X-Secret=${req.headers['x-secret']}.`)
 
-      const token = tokenManager.generate()
+      const token = crypto.randomBytes(32).toString('hex')
       await dbDriver.insert({ token })
       res.status(200).json({ token })
 
