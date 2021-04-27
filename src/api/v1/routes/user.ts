@@ -17,7 +17,7 @@ router.post('/login', async (req: ExpressHandlerRequest, res: Response, next: Ne
     if (req.body.username === process.env.LOGIN_USER && req.body.password === process.env.LOGIN_PASS) {
       req.session.token = crypto.randomBytes(32).toString('hex')
       req.session.save()
-      logger.info(`User ${req.body.username} login successful.`)
+      logger.info(`Login succesful. Logged in with username "${req.body.username}".`)
       ok(res)
     } else {
       logger.warn(`User input invalid (Username=${req.body.username}, password=${req.body.password}). Login unsuccessful.`)
