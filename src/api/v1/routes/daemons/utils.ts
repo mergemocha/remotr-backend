@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios'
 import { Response } from 'express'
-import { DaemonOpCode, DaemonOpCtx, DaemonOpHandlerCtx } from '../../../../types/DaemonOps'
+import { DaemonOpCode, DaemonOpCtx, DaemonOpHandlerCtx, DaemonOpParams } from '../../../../types/DaemonOps'
 import { ExpressHandlerRequest } from '../../../../types/ExpressHandlerRequest'
 import { badRequest, daemonReturnedError, internalServerError, notFound, ok, unauthorized } from '../../../../utils/cannedHTTPResponses'
 import requestWasValid from '../../../../utils/requestWasValid'
@@ -67,7 +67,7 @@ export function handleDaemonResponse (opCode: DaemonOpCode, daemonRes: AxiosResp
   }
 }
 
-export async function genericOpHandler (ctx: DaemonOpCtx): Promise<void> {
+export async function genericOpHandler (ctx: DaemonOpCtx, params: DaemonOpParams): Promise<void> {
   const { opCode, req, res } = ctx
 
   await performDaemonOp({ opCode, req, res }, async ctx => {
@@ -77,7 +77,7 @@ export async function genericOpHandler (ctx: DaemonOpCtx): Promise<void> {
     if (!daemon.ip) return
 
     try {
-      const response = await axios.post(getAddressForOp(opCode, daemon.ip))
+      const response = await axios.post(getAddressForOp(opCode, daemon.ip), params)
       handleDaemonResponse(opCode, response, req, res)
     } catch (err) {
       res.status(523).json({ error: err.stack })

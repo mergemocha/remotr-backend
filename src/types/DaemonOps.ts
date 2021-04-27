@@ -13,3 +13,9 @@ export interface DaemonOpCtx {
 export interface DaemonOpHandlerCtx extends DaemonOpCtx {
   daemon: DaemonDocument
 }
+
+export interface DaemonOpParams {
+  force: boolean
+  timeout: number
+  comment: string
+}

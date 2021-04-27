@@ -17,17 +17,17 @@ const router = Router()
 
 router.post(
   '/register',
-  header('X-Secret').isString().withMessage('X-Secret header must be present'),
+  header('X-Secret').notEmpty().withMessage('X-Secret header must be present'),
   register
 )
 
 router.post(
   '/identify',
-  header('Authorization').isString().withMessage('Authorization header must be present'),
+  header('Authorization').notEmpty().withMessage('Authorization header must be present'),
   body('mac').isMACAddress().withMessage('Must be a MAC address'),
   body('ip').isIP().withMessage('Must be an IP address'),
-  body('user').isString().withMessage('Must be present'),
-  body('hostname').isString().withMessage('Must be present'),
+  body('user').notEmpty().withMessage('Must be present'),
+  body('hostname').notEmpty().withMessage('Must be present'),
   identify
 )
 
@@ -46,7 +46,7 @@ router.get(
 
 router.delete(
   '/:mac',
-  header('Authorization').isString().withMessage('Authorization header must be present'),
+  header('Authorization').notEmpty().withMessage('Authorization header must be present'),
   param('mac').isMACAddress().withMessage('Must be a MAC address'),
   deregister
 )
