@@ -55,8 +55,6 @@ router.post(
 
 // Authenticated routes
 
-// TODO: Auth middleware
-
 // eslint-disable-next-line @typescript-eslint/no-misused-promises
 router.get('/', getAll)
 router.get('/:mac', needsMac, getByMAC)
