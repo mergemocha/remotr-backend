@@ -49,9 +49,13 @@ void (async () => {
   // Init session store
   app.use(session({
     secret: 'secret',
-    store: new MongoStore({ mongoUrl }),
+    store: new MongoStore({
+      mongoUrl,
+      ttl: 14 * 24 * 60 * 60,
+      autoRemove: 'native'
+    }),
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: true
   }))
 
   // Parse bodies as JSON

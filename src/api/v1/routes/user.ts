@@ -1,16 +1,22 @@
+import crypto from 'crypto'
 import { Router } from 'express'
-import session from 'express-session'
-import { internalServerError, ok } from '../../../utils/cannedHTTPResponses'
-import { getSessionToken } from './session'
+import { internalServerError, ok, unauthorized } from '../../../utils/cannedHTTPResponses'
 
 const router = Router()
 
 // TODO: Auth checks
 
+declare module 'express-session' {
+  interface SessionData {
+    token: string
+  }
+}
+
 // eslint-disable-next-line @typescript-eslint/no-misused-promises
 router.post('/login', async (req, res, next) => {
   try {
     if (req.body.username === process.env.LOGIN_USER && req.body.password === process.env.LOGIN_PASS) {
+      req.session.token = crypto.randomBytes(32).toString('hex')
       req.session.save()
       logger.info('User authenticated. Login successful.')
       ok(res)
@@ -25,14 +31,13 @@ router.post('/login', async (req, res, next) => {
 })
 
 router.post('/auth', (req, res, next) => {
-  console.log(req.headers['x-connect.sid'])
-
   try {
-    if (req.query.sessionId) {
+    if (req.session.token) {
       logger.info('Token authentication successful.')
       ok(res)
     } else {
-      res.sendStatus(400)
+      logger.warn('Token authentication unsuccessful.')
+      unauthorized(res)
     }
   } catch (error) {
     logger.warn('Error during session authentication.')
@@ -40,10 +45,11 @@ router.post('/auth', (req, res, next) => {
   }
 })
 
-router.post('/logout', (req, res, next) => {
-  req.session.destroy(err => {})
-
-  res.sendStatus(200)
+// eslint-disable-next-line @typescript-eslint/no-misused-promises
+router.post('/logout', async (req, res, next) => {
+  logger.info(`Invalidating session ${req.session.token}`)
+  req.session.destroy(() => {})
+  ok(res)
 })
 
 export default router
