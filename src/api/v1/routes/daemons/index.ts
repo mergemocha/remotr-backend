@@ -1,5 +1,6 @@
-import { Router } from 'express'
+import { NextFunction, Response, Router } from 'express'
 import { header, body, param } from 'express-validator'
+import unless from 'express-unless'
 import register from './handlers/register'
 import identify from './handlers/identify'
 import getAll from './handlers/getAll'
@@ -11,6 +12,8 @@ import shutdown from './handlers/mac/shutdown'
 import restart from './handlers/mac/restart'
 import logout from './handlers/mac/logout'
 import { WINDOWS_MAX_SHUTDOWN_COMMENT_LENGTH, WINDOWS_MAX_SHUTDOWN_TIMEOUT } from '../../../../common/constants'
+import { ExpressHandlerRequest } from '../../../../types/ExpressHandlerRequest'
+import { unauthorized } from '../../../../utils/cannedHTTPResponses'
 
 const router = Router()
 
@@ -22,6 +25,15 @@ const needsOpParams = [
   body('timeout').isInt({ min: 0, max: WINDOWS_MAX_SHUTDOWN_TIMEOUT }).withMessage('Must be in range 0-315360000'),
   body('comment').isLength({ max: WINDOWS_MAX_SHUTDOWN_COMMENT_LENGTH }).withMessage('Must be <= 512 characters')
 ]
+
+const auth = (req: ExpressHandlerRequest, res: Response, next: NextFunction): void => {
+  if (req.session.token) next()
+  else unauthorized(res)
+}
+
+auth.unless = unless
+
+router.use(auth.unless({ path: ['/api/v1/daemons/register', '/api/v1/daemons/identify'] }))
 
 // Registration routes with special authentication
 
