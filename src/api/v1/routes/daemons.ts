@@ -2,7 +2,7 @@ import { Router } from 'express'
 import { header, body, param } from 'express-validator'
 import DaemonTokenManager from '../../../auth/DaemonTokenManager'
 import DaemonDatabaseDriver from '../../../db/drivers/daemon'
-import { internalServerError, ok, unauthorized } from '../../../utils/cannedHTTPResponses'
+import { ok, unauthorized, notFound, internalServerError } from '../../../utils/cannedHTTPResponses'
 import requestWasValid from '../../../utils/requestWasValid'
 
 const router = Router()
@@ -109,16 +109,20 @@ router.delete(
     try {
       if (!requestWasValid(req, res)) return
 
-      logger.info(`Received daemon deletion request from ${req.ip}, token=${req.headers.authorization}.`)
+      logger.info(`Received daemon deletion request from IP ${req.ip}: daemon=${req.params?.mac}, token=${req.headers.authorization}.`)
 
-      const daemon = await dbDriver.getByToken(req.headers.authorization)
+      const daemon = await dbDriver.getByMac(req.params?.mac)
 
-      if (daemon !== null) {
+      if (daemon === null) {
+        logger.warn(`Received daemon deletion request from IP ${req.ip} for non-existent daemon ${req.params?.mac}.`)
+        notFound(res, 'No daemon with this MAC address found')
+      } else if (daemon.token !== req.headers.authorization) {
+        logger.warn(`Received daemon deletion request from IP ${req.ip} for daemon ${req.params?.mac}, but token was incorrect (Expected ${daemon.token}, got ${req.headers.authorization}).`)
+        unauthorized(res, 'Invalid token')
+      } else {
         await dbDriver.delete(daemon)
         ok(res, 'De-registration successful')
-      } else {
-        logger.warn(`Received daemon deletion request from IP ${req.ip}, but token was incorrect (token=${req.headers.authorization}).`)
-        unauthorized(res, 'Invalid token')
+        logger.info(`Daemon de-registration for daemon ${req.params?.mac} complete.`)
       }
     } catch (err) {
       logger.error(`Encountered an when de-registering daemon ${req.params?.mac}: ${err.stack}`)
