@@ -62,7 +62,7 @@ router.delete('/:mac', header('Authorization').notEmpty().withMessage('Authoriza
 router.post('/:mac/boot', ...needsOpParams, boot)
 router.post('/:mac/reboot', ...needsOpParams, reboot)
 router.post('/:mac/shutdown', ...needsOpParams, shutdown)
-router.post('/:mac/restart', ...needsOpParams, restart)
+router.post('/:mac/restart', needsMac, restart)
 router.post('/:mac/logout', ...needsOpParams, logout)
 
 export default router
