@@ -21,9 +21,9 @@ const needsMac = param('mac').isMACAddress().withMessage('Must be a MAC address'
 
 const needsOpParams = [
   needsMac,
-  body('force').isBoolean().toBoolean(true).withMessage('Must be true or false'),
-  body('timeout').isInt({ min: 0, max: WINDOWS_MAX_SHUTDOWN_TIMEOUT }).withMessage('Must be in range 0-315360000'),
-  body('comment').isLength({ max: WINDOWS_MAX_SHUTDOWN_COMMENT_LENGTH }).withMessage('Must be <= 512 characters')
+  body('force').optional().isBoolean().toBoolean(true).withMessage('Must be true or false'),
+  body('timeout').optional().isInt({ min: 0, max: WINDOWS_MAX_SHUTDOWN_TIMEOUT }).withMessage('Must be in range 0-315360000'),
+  body('comment').optional().isLength({ max: WINDOWS_MAX_SHUTDOWN_COMMENT_LENGTH }).withMessage('Must be <= 512 characters')
 ]
 
 const auth = (req: ExpressHandlerRequest, res: Response, next: NextFunction): void => {
