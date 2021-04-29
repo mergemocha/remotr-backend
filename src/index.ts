@@ -19,6 +19,9 @@ function terminate (): void {
 
 // We can't reliably use TLA (Top-Level Await) yet, so we have to fallback to an async IIFE
 void (async () => {
+  logger.info('BOOT: Starting up.')
+  logger.info(`BOOT: Running in ${process.env.NODE_ENV === 'development' ? 'development' : 'production'} mode.`)
+
   // Load configuration
   logger.info('BOOT: Loading configuration.')
   dotenv.config()
