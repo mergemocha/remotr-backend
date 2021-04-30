@@ -104,7 +104,7 @@ export async function genericOpHandler (ctx: DaemonOpCtx, params: DaemonOpParams
 
     try {
       const response = await axios({
-        method: 'post',
+        method: 'POST',
         url: getAddressForOp(opCode, daemon.ip),
         headers: {
           'Content-Type': 'application/json',

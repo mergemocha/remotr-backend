@@ -33,13 +33,14 @@ const auth = (req: ExpressHandlerRequest, res: Response, next: NextFunction): vo
 
 auth.unless = unless
 
-router.use(auth.unless({ path: ['/api/v1/daemons/register', '/api/v1/daemons/identify'] }))
+router.use(auth.unless({ path: ['/api/v1/daemons/register', '/api/v1/daemons/identify'], method: ['DELETE'] }))
 
 // Registration routes with special authentication
 
 router.post(
   '/register',
   header('X-Secret').notEmpty().withMessage('X-Secret header must be present'),
+  body('mac').isMACAddress().withMessage('Must be a MAC address'),
   register
 )
 
