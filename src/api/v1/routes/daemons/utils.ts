@@ -96,12 +96,21 @@ export async function genericOpHandler (ctx: DaemonOpCtx, params: DaemonOpParams
 
   await performDaemonOp({ opCode, req, res }, async ctx => {
     const { opCode, daemon } = ctx
+    const token = daemon.token
 
     // This is just here to satisfy TS since we will always have an IP thanks to the performDaemonOp filtering
     if (!daemon.ip) return
 
     try {
-      const response = await axios.post(getAddressForOp(opCode, daemon.ip), params)
+      const response = await axios({
+        method: 'post',
+        url: getAddressForOp(opCode, daemon.ip),
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token
+        },
+        data: params
+      })
       handleDaemonResponse(opCode, response, req, res)
     } catch (err) {
       res.status(523).json({ error: err.stack })
