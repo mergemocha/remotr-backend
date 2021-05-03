@@ -21,9 +21,9 @@ const needsMac = param('mac').isMACAddress().withMessage('Must be a MAC address'
 
 const needsOpParams = [
   needsMac,
-  body('force').isBoolean().toBoolean(true).withMessage('Must be true or false'),
-  body('timeout').isInt({ min: 0, max: WINDOWS_MAX_SHUTDOWN_TIMEOUT }).withMessage('Must be in range 0-315360000'),
-  body('comment').isLength({ max: WINDOWS_MAX_SHUTDOWN_COMMENT_LENGTH }).withMessage('Must be <= 512 characters')
+  body('force').optional().isBoolean().toBoolean(true).withMessage('Must be true or false'),
+  body('timeout').optional().isInt({ min: 0, max: WINDOWS_MAX_SHUTDOWN_TIMEOUT }).withMessage('Must be in range 0-315360000'),
+  body('comment').optional().isLength({ max: WINDOWS_MAX_SHUTDOWN_COMMENT_LENGTH }).withMessage('Must be <= 512 characters')
 ]
 
 const auth = (req: ExpressHandlerRequest, res: Response, next: NextFunction): void => {
@@ -33,13 +33,14 @@ const auth = (req: ExpressHandlerRequest, res: Response, next: NextFunction): vo
 
 auth.unless = unless
 
-router.use(auth.unless({ path: ['/api/v1/daemons/register', '/api/v1/daemons/identify'] }))
+router.use(auth.unless({ path: ['/api/v1/daemons/register', '/api/v1/daemons/identify'], method: ['DELETE'] }))
 
 // Registration routes with special authentication
 
 router.post(
   '/register',
   header('X-Secret').notEmpty().withMessage('X-Secret header must be present'),
+  body('mac').isMACAddress().withMessage('Must be a MAC address'),
   register
 )
 
@@ -62,7 +63,7 @@ router.delete('/:mac', header('Authorization').notEmpty().withMessage('Authoriza
 router.post('/:mac/boot', ...needsOpParams, boot)
 router.post('/:mac/reboot', ...needsOpParams, reboot)
 router.post('/:mac/shutdown', ...needsOpParams, shutdown)
-router.post('/:mac/restart', ...needsOpParams, restart)
+router.post('/:mac/restart', needsMac, restart)
 router.post('/:mac/logout', ...needsOpParams, logout)
 
 export default router

@@ -10,8 +10,11 @@ import helmet from 'helmet'
 import mongoose from 'mongoose'
 import session from 'express-session'
 import MongoStore from 'connect-mongo'
-import v1Router from './api/v1/index'
+import v1Router from './api/v1'
 
+/**
+ * Terminates the program if a fatal error is encountered during the boot process.
+ */
 function terminate (): void {
   logger.error('BOOT: Encountered fatal error during boot process. Exiting...')
   process.exit(1)
@@ -19,6 +22,9 @@ function terminate (): void {
 
 // We can't reliably use TLA (Top-Level Await) yet, so we have to fallback to an async IIFE
 void (async () => {
+  logger.info('BOOT: Starting up.')
+  logger.info(`BOOT: Running in ${process.env.NODE_ENV === 'development' ? 'development' : 'production'} mode.`)
+
   // Load configuration
   logger.info('BOOT: Loading configuration.')
   dotenv.config()

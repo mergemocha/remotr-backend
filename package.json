@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "start": "node lib/index.js",
-    "dev": "nodemon lib/index.js",
+    "dev": "cross-env NODE_ENV=development nodemon lib/index.js",
     "build": "tsc",
     "watch": "tsc --watch",
     "test": "jest",
@@ -37,6 +37,7 @@
     "@types/wol": "^1.0.0",
     "@typescript-eslint/eslint-plugin": "^4.22.0",
     "@typescript-eslint/parser": "^4.22.0",
+    "cross-env": "^7.0.3",
     "eslint": "^7.25.0",
     "eslint-config-standard-with-typescript": "^20.0.0",
     "eslint-plugin-import": "^2.22.1",

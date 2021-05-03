@@ -6,6 +6,7 @@ import { badRequest, daemonReturnedError, internalServerError, notFound, ok, una
 import requestWasValid from '../../../../utils/requestWasValid'
 import * as dbDriver from '../../../../db/driver'
 import { getAddressForOp } from '../../../../utils/daemonHTTPAddress'
+import logHTTPRequestError from '../../../../utils/logHTTPRequestError'
 
 /**
  * Performs a {@link DaemonOpCode} operation as specified by the user, validating that the target daemon exists and catching any errors.
@@ -96,15 +97,33 @@ export async function genericOpHandler (ctx: DaemonOpCtx, params: DaemonOpParams
 
   await performDaemonOp({ opCode, req, res }, async ctx => {
     const { opCode, daemon } = ctx
+    const { token } = daemon
 
     // This is just here to satisfy TS since we will always have an IP thanks to the performDaemonOp filtering
     if (!daemon.ip) return
 
     try {
-      const response = await axios.post(getAddressForOp(opCode, daemon.ip), params)
+      const response = await axios({
+        method: 'POST',
+        url: getAddressForOp(opCode, daemon.ip),
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token
+        },
+        data: params
+      })
       handleDaemonResponse(opCode, response, req, res)
     } catch (err) {
-      res.status(523).json({ error: err.stack })
+      logHTTPRequestError(err)
+
+      if (err.response) { // Request succeeded, but response was error
+        handleDaemonResponse(opCode, err.response, req, res)
+      } else if (err.request) { // Request was made, but no response received
+        // (523 = Origin Is Unreachable)
+        res.status(523).json({ error: err.stack })
+      } else { // Could not make the request, some other error occurred
+        internalServerError(res)
+      }
     }
   })
 }
