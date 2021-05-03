@@ -1,5 +1,8 @@
 import { inspect } from 'util'
 
+/**
+ * Logs errors from an HTTP request selectively based on what exactly went wrong.
+ */
 export default (err: any): void => {
   logger.error('An HTTP request failed. More information to follow.')
 

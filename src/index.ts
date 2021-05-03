@@ -12,6 +12,9 @@ import session from 'express-session'
 import MongoStore from 'connect-mongo'
 import v1Router from './api/v1'
 
+/**
+ * Terminates the program if a fatal error is encountered during the boot process.
+ */
 function terminate (): void {
   logger.error('BOOT: Encountered fatal error during boot process. Exiting...')
   process.exit(1)
