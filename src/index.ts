@@ -10,7 +10,7 @@ import helmet from 'helmet'
 import mongoose from 'mongoose'
 import session from 'express-session'
 import MongoStore from 'connect-mongo'
-import v1Router from './api/v1/index'
+import v1Router from './api/v1'
 
 function terminate (): void {
   logger.error('BOOT: Encountered fatal error during boot process. Exiting...')
