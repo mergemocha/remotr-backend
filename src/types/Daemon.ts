@@ -2,7 +2,7 @@ import { Document } from 'mongoose'
 
 export default interface Daemon {
   token: string
-  mac?: string
+  mac: string
   ip?: string
   user?: string
   hostname?: string
@@ -10,7 +10,7 @@ export default interface Daemon {
 
 export interface DaemonDocument extends Document {
   token: Daemon['token']
-  mac?: Daemon['mac']
+  mac: Daemon['mac']
   ip?: Daemon['ip']
   user?: Daemon['user']
   hostname?: Daemon['hostname']
