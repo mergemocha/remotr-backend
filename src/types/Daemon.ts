@@ -6,6 +6,7 @@ export default interface Daemon {
   ip?: string
   user?: string
   hostname?: string
+  [key: string]: string | undefined
 }
 
 export interface DaemonDocument extends Document {
