@@ -10,6 +10,8 @@ import helmet from 'helmet'
 import mongoose from 'mongoose'
 import session from 'express-session'
 import MongoStore from 'connect-mongo'
+import cors from 'cors'
+import cookieParser from 'cookie-parser'
 import v1Router from './api/v1'
 
 /**
@@ -67,8 +69,19 @@ void (async () => {
   // Parse bodies as JSON
   app.use(express.json())
 
+  // Parse cookies in requests
+  app.use(cookieParser())
+
   // Load Helmet
   app.use(helmet())
+
+  // Allow CORS in dev
+  if (process.env.NODE_ENV === 'development') {
+    app.use(cors({
+      credentials: true,
+      origin: 'http://localhost:8080'
+    }))
+  }
 
   // Apply routers
   app.use('/api/v1', v1Router)
