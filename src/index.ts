@@ -10,6 +10,8 @@ import helmet from 'helmet'
 import mongoose from 'mongoose'
 import session from 'express-session'
 import MongoStore from 'connect-mongo'
+import cors from 'cors'
+import cookieParser from 'cookie-parser'
 import v1Router from './api/v1'
 
 /**
@@ -52,23 +54,44 @@ void (async () => {
 
   const app = express()
 
-  // Init session store
-  app.use(session({
-    secret: 'secret',
-    store: new MongoStore({
-      mongoUrl,
-      ttl: 14 * 24 * 60 * 60,
-      autoRemove: 'native'
-    }),
-    resave: false,
-    saveUninitialized: true
-  }))
+  if (!process.env.COOKIE_SECRET) {
+    logger.error('BOOT: The COOKIE_SECRET environment variable is not set.')
+    terminate()
+  } else {
+    // Need this else here to convince TS that we do actually have the variable set
+
+    // Init session store
+    app.use(session({
+      secret: process.env.COOKIE_SECRET,
+      store: new MongoStore({
+        mongoUrl,
+        ttl: 14 * 24 * 60 * 60,
+        autoRemove: 'native'
+      }),
+      cookie: {
+        sameSite: true
+      },
+      resave: false,
+      saveUninitialized: true
+    }))
+  }
 
   // Parse bodies as JSON
   app.use(express.json())
 
+  // Parse cookies in requests
+  app.use(cookieParser())
+
   // Load Helmet
   app.use(helmet())
+
+  // Allow CORS in dev
+  if (process.env.NODE_ENV === 'development') {
+    app.use(cors({
+      credentials: true,
+      origin: 'http://localhost:8080'
+    }))
+  }
 
   // Apply routers
   app.use('/api/v1', v1Router)

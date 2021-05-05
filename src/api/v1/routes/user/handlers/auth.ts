@@ -1,3 +1,4 @@
+import util from 'util'
 import { NextFunction, Response } from 'express'
 import { ExpressHandlerRequest } from '../../../../../types/ExpressHandlerRequest'
 import { unauthorized, internalServerError, ok } from '../../../../../utils/cannedHTTPResponses'
@@ -9,7 +10,7 @@ export default async (req: ExpressHandlerRequest, res: Response, next: NextFunct
       logger.info(`Session authentication with token ${req.session.token} successful.`)
       ok(res)
     } else {
-      logger.warn(`Session authentication unsuccessful. Invalid session token ${req.session.token}.`)
+      logger.warn(`Session authentication unsuccessful. Invalid session token ${req.session.token} in session ${util.inspect(req.session)}.`)
       unauthorized(res)
     }
   } catch (err) {
