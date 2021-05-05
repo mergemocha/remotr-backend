@@ -36,7 +36,7 @@
     "@types/express-unless": "^0.5.1",
     "@types/jest": "^26.0.23",
     "@types/node": "^15.0.1",
-    "@types/wol": "^1.0.0",
+    "@types/wake_on_lan": "^0.0.28",
     "@typescript-eslint/eslint-plugin": "^4.22.0",
     "@typescript-eslint/parser": "^4.22.0",
     "cross-env": "^7.0.3",
@@ -70,7 +70,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.12.7",
     "reflect-metadata": "^0.1.13",
-    "winston": "^3.3.3",
-    "wol": "^1.0.7"
+    "wake_on_lan": "^1.0.0",
+    "winston": "^3.3.3"
   }
 }

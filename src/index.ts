@@ -76,6 +76,9 @@ void (async () => {
     }))
   }
 
+  // Serve static files
+  app.use(express.static('static'))
+
   // Parse bodies as JSON
   app.use(express.json())
 

@@ -112,3 +112,6 @@ docs
 # Runtime data
 data
 logs
+
+# Static files
+static
