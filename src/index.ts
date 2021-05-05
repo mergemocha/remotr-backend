@@ -54,17 +54,27 @@ void (async () => {
 
   const app = express()
 
-  // Init session store
-  app.use(session({
-    secret: 'secret',
-    store: new MongoStore({
-      mongoUrl,
-      ttl: 14 * 24 * 60 * 60,
-      autoRemove: 'native'
-    }),
-    resave: false,
-    saveUninitialized: true
-  }))
+  if (!process.env.COOKIE_SECRET) {
+    logger.error('BOOT: The COOKIE_SECRET environment variable is not set.')
+    terminate()
+  } else {
+    // Need this else here to convince TS that we do actually have the variable set
+
+    // Init session store
+    app.use(session({
+      secret: process.env.COOKIE_SECRET,
+      store: new MongoStore({
+        mongoUrl,
+        ttl: 14 * 24 * 60 * 60,
+        autoRemove: 'native'
+      }),
+      cookie: {
+        sameSite: true
+      },
+      resave: false,
+      saveUninitialized: true
+    }))
+  }
 
   // Parse bodies as JSON
   app.use(express.json())
