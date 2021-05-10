@@ -63,7 +63,7 @@
     "express-rate-limit": "^5.2.6",
     "express-session": "^1.17.1",
     "express-unless": "^0.5.0",
-    "express-validator": "^6.10.1",
+    "express-validator": "^6.11.1",
     "fs-extra": "^9.1.0",
     "helmet": "^4.6.0",
     "joiful": "^3.0.2",
